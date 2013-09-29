@@ -41,20 +41,6 @@ get '/' => [qw/set_title/] => sub {
 post '/' => sub {
     my ( $self, $c )  = @_;
     my $data =  $c->req->parameters;
-<<<<<<< HEAD
-=======
-
-$teng->insert('content' => 
-{
-    'title'         => $data->{"title"},
-    'memo'   => $data->{"memo"},
-    'priority' => $data->{"priority"},
-    'status' => $data->{"status"}
-});
-
-print Dumper $teng;
-
->>>>>>> dc400f1b763ea2a5b56c97668b1a4da934d3825e
 
 $dbi->insert(
     {
@@ -67,7 +53,6 @@ $dbi->insert(
 };
 
 
-<<<<<<< HEAD
 #削除
 post '/{id}/delete' => sub {
     my ($self, $c) = @_;
@@ -103,39 +88,7 @@ post '/{id}/edit' => sub {
     $c->redirect('/');
 };
 
- #    my $post = $c->req->parameters;
- #    # バリデーション
- #    my $validate = $c->req->validator([
- #        title     => [['NOT_NULL','名前を入力してください']],        
- #    ]);    
 
-    
- #    # データの更新
- #    $post->{"updated_at"} = \'NOW()';
- #    $model->update("posts" => $post, {'id' => $c->args->{"id"}});
- #    $c->redirect('/');
-
- #    $dbi->update({
- #        title => $c->args->{'title'}},
- # );
-    # my $result = $c->req->validator([
-    #     'id' => {
-    #         default => '0',
-    #         rule => [
-    #             [['NOT_NULL','empty id'],]
-    #         ],
-    #     }
-    # ]);
-
-#    print Dumper $id;
-#         # memo => $c->args->{'memo'}},
-#         # priority => $c->args->{'priority'}},
-#         # status => $c->args->{'status'}},
-#         # table => 'content', 
-#         where => {id => $c->args->{'id'}});
-
-=======
->>>>>>> dc400f1b763ea2a5b56c97668b1a4da934d3825e
 get '/json' => sub {
     my ( $self, $c )  = @_;
     my $result = $c->req->validator([
