@@ -1,11 +1,57 @@
 : cascade base
 : around content -> {
 <h1><: $greeting :> <: $c.stash.site_name :></h1>
+:    while(my $row=$contents.fetch_hash){
+     
+
+     <form action="/<: $row.id :>/delete" method="post" onsubmit="return confirm('削除してもよろしいですか？');">
+     <div>
+     <h4>[ID]:<: $row.id :></h4>
+     </div>
+     <input class="btn btn-large btn-primary" type="submit" value="削除" />
+     <input type="hidden" name="id" value="<: $row.id :>" />
+     </form>
+     ---------------
+     <form action="/<: $row.id :>/edit" method="post">
+     <div>
+     <h4>タイトル:<textarea rows="1" name="title"><: $row.title :></textarea><br /></h4>
+     </div>
+     ---------------
+     <div>
+     <h4>メモ:<textarea rows="1" name="memo"><: $row.memo :></textarea><br /></h4>
+     </div>
+     ---------------
+     <div>
+     <h4>優先度:<textarea rows="1" name="priority"><: $row.priority :></textarea><br /></h4>
+     </div>
+     ---------------
+     <div>
+     <h4>状態:<textarea rows="1" name="status"><: $row.status :></textarea><br /></h4>
+     </div>
+     <input class="btn btn-large btn-primary" type="submit" value="編集" />
+     <input type="hidden" name="id" value="<: $row.id :>" />
+     </form>
+     *********************************
+ :}
+
 <h2>てすと</h2>
     <form action="/" method="post">
-    <textarea rows="3" name="message"></textarea><br />
+
+    <h4>< タイトル ></h4>
+    <textarea rows="1" name="title"></textarea><br />    
+    <h4>< memo ></h4>
+    <textarea rows="3" name="memo"></textarea><br />
+    <h4>< 優先度 ></h4>
+    <textarea rows="1" name="priority"></textarea><br />
+    <h4>< 状態 ></h4>
+    <textarea rows="1" name="status"></textarea><br />
+
     <input class="btn btn-large btn-primary" type="submit" value="投稿" />
     </form>
+
+
 <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
 : }
+
+
 
