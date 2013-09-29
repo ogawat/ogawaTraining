@@ -29,6 +29,7 @@ filter 'set_title' => sub {
     }
 };
 
+#一覧表示
 get '/' => [qw/set_title/] => sub {
     my ( $self, $c )  = @_;
     my $rows = $teng->search('message', {});
@@ -36,13 +37,25 @@ get '/' => [qw/set_title/] => sub {
     $c->render('index.tx', { messages => $messages });
 };
 
+#登録
 post '/' => sub {
     my ( $self, $c )  = @_;
     my $data =  $c->req->parameters;
-    $teng->insert('message', {'message' => $data->{"message"}});
+
+$teng->insert('content' => 
+{
+    'title'         => $data->{"title"},
+    'memo'   => $data->{"memo"},
+    'priority' => $data->{"priority"},
+    'status' => $data->{"status"}
+});
+
+print Dumper $teng;
+
 
     return $c->redirect('/');
 };
+
 
 get '/json' => sub {
     my ( $self, $c )  = @_;
@@ -56,4 +69,3 @@ get '/json' => sub {
     ]);
     $c->render_json({ greeting => $result->valid->get('q') });
 };
-

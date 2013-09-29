@@ -1,11 +1,24 @@
+
 : cascade base
 : around content -> {
 <h1><: $greeting :> <: $c.stash.site_name :></h1>
 <h2>てすと</h2>
     <form action="/" method="post">
-    <textarea rows="3" name="message"></textarea><br />
+
+    <h4>< タイトル ></h4>
+    <textarea rows="1" name="title"></textarea><br />    
+    <h4>< memo ></h4>
+    <textarea rows="3" name="memo"></textarea><br />
+    <h4>< 優先度 ></h4>
+    <textarea rows="1" name="priority"></textarea><br />
+    <h4>< 状態 ></h4>
+    <textarea rows="1" name="status"></textarea><br />
+
     <input class="btn btn-large btn-primary" type="submit" value="投稿" />
     </form>
+
+
 <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
 : }
+
 
