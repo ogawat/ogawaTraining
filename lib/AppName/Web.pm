@@ -31,32 +31,43 @@ filter 'set_title' => sub {
 };
 
 #一覧表示
-get '/' => [qw/set_title/] => sub {
-    my ( $self, $c )  = @_;
-    my $result = $dbi->execute("select * from content");
-    #my $rows = $result->all;
-    $c->render('index.tx', { contents=>$result });
+# get '/' => [qw/set_title/] => sub {
+#     my ( $self, $c )  = @_;
+#     my $result = $dbi->execute("select * from content");
+#     #my $rows = $result->all;
+#     $c->render('index.tx', { contents=>$result });
 
-};
+# };
 
  #アラート
  get '/' => [qw/set_title/] => sub {
+     print Dumper 'ああああああ';
+     my ( $self, $c )  = @_;
      my $dt = localtime;
-     my @view_all;
- #行数カウント
-     my $count = $dbi->count(table => 'content');
-     print Dumper $count;
-      for (my $i = 0 ; $i < $count ; $i++){
         my $content = $dbi->select(table => 'content');
+        my @view_title;
+        my $count=0;
+        my $result = $dbi->execute("select * from content");
+        
           while (my $row = $content->fetch_hash){
                  my $deadline =Time::Piece->strptime($row->{deadline},'%Y-%m-%d %H:%M:%S');
+                 print Dumper $row->{deadline};
                  my $sub_date = $deadline - $dt;
-                 print Dumper $deadline->ymd;                                   
-                 print Dumper $dt->ymd;                                         
-                 print Dumper int($sub_date);                             
+                 if($sub_date->days < 1)
+                 {
+                     $view_title[$count] = $row->{title};
+                     $count++;
+                  }
+
+                  print Dumper $deadline->ymd;                                   
+                  print Dumper $dt->ymd;                                         
+                  print Dumper int($sub_date->days);                             
             }
-        }
-    };
+            $c->render('index.tx', { title => \@view_title,contents=>$result});
+           # $c->render('graph.tx',{week => \@view_week,busy_point => \@busy_point});
+
+        };
+    
 
 #登録
 post '/' => sub {
