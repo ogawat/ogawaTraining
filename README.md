@@ -1,14 +1,13 @@
-
 =============
 提出課題
 =====
 
 ## 依存モジュール
-+ Teng
-+ DBD::mysql
++ DBD
++ DBIx::Custom
 
 ```
-cpanm Teng;
-cpanm DBD::mysql;
+cpanm DBD
+cpanm DBIx::Custom
 
 ```
