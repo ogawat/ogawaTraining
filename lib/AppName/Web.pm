@@ -7,6 +7,8 @@ use Kossy;
 use DBI;
 use DBIx::Custom;;
 use Data::Dumper;
+use Time::Piece;
+use Time::Seconds;
 
 my $dsn    = 'dbi:mysql:AppName';
 my $user   = 'root';
@@ -37,6 +39,25 @@ get '/' => [qw/set_title/] => sub {
 
 };
 
+ #アラート
+ get '/' => [qw/set_title/] => sub {
+     my $dt = localtime;
+     my @view_all;
+ #行数カウント
+     my $count = $dbi->count(table => 'content');
+     print Dumper $count;
+      for (my $i = 0 ; $i < $count ; $i++){
+        my $content = $dbi->select(table => 'content');
+          while (my $row = $content->fetch_hash){
+                 my $deadline =Time::Piece->strptime($row->{deadline},'%Y-%m-%d %H:%M:%S');
+                 my $sub_date = $deadline - $dt;
+                 print Dumper $deadline->ymd;                                   
+                 print Dumper $dt->ymd;                                         
+                 print Dumper int($sub_date);                             
+            }
+        }
+    };
+
 #登録
 post '/' => sub {
     my ( $self, $c )  = @_;
@@ -47,7 +68,8 @@ $dbi->insert(
     'title'         => $data->{"title"},
     'memo'   => $data->{"memo"},
     'priority' => $data->{"priority"},
-    'status' => $data->{"status"}
+    'status' => $data->{"status"},
+    'deadline' => $data->{"deadline"},
     },table =>'content');
     return $c->redirect('/');
 };
@@ -80,7 +102,8 @@ post '/{id}/edit' => sub {
     'title'         => $data->{"title"},
     'memo'   => $data->{"memo"},
     'priority' => $data->{"priority"},
-    'status' => $data->{"status"}
+    'status' => $data->{"status"},
+    'deadline' => $data->{"deadline"}
     },table =>'content',
     where => {id => $c->args->{'id'}}
     );
